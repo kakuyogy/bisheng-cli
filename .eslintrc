@@ -1,0 +1,30 @@
+{
+  "extends": ["eslint:recommended"],
+  "plugins": [
+    "react"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "semi": [2],
+    "react/react-in-jsx-scope": [0],
+    "react/jsx-uses-react": [2],
+    "react/jsx-uses-vars": [2]
+  },
+  "globals": {
+    "React": true
+  }
+}
