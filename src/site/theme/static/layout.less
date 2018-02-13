@@ -1,0 +1,56 @@
+.wrapper{
+  background: #fff;
+  .layout{
+    width: 100%;
+    height: calc(~"100vh - 70px");
+    margin:auto;
+    padding: 0;
+    position: relative;
+    border-radius: 4px;
+  }
+}
+#aside {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 240px;
+  height: 100%;
+  transition: width .5s;
+}
+#aside a {
+  font-size: 14px;
+}
+#article {
+  margin-left: 272px;
+  padding: 20px 15px 30px 15px;
+  height: 100%;
+}
+
+
+@media(max-width: 1100px) {
+  #aside{
+    width: 170px;
+    transition: width .5s;
+  }
+  #article{
+    margin-left: 169px;
+  }
+}
+
+@media(max-width: 800px){
+  .wrapper{
+    .layout{
+      width: 100%;
+      min-width: auto;
+    }
+  }
+  #aside{
+    position: static;
+    height: auto;
+    width: 100%;
+  }
+  #article{
+    margin-left: 0;
+    width: 100%;
+  }
+}

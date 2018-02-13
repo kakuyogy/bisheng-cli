@@ -2,13 +2,13 @@ import path from 'path';
 import chalk from 'chalk';
 import placeholder from 'replace-holder';
 import bisheng from 'bisheng/lib';
-import { getPaths, getRcConfig, getRoutesOrSource } from './utils';
+import { getPaths, getRcConfig, getConfigFromRc } from './utils';
 
 export default function run(argv) {
   const command = argv.command;
   const paths = getPaths(process.cwd());
 
-  if (command === 'start' || command === 'build') {
+  if (command === 'start' || command === 'build' || command === 'deploy') {
     // 1. 生成routes.
     const routes = getRoutesConfig('.bishengrc', paths);
 
@@ -24,6 +24,15 @@ export default function run(argv) {
 
       // 3. 启动bisheng
       argv.config = paths.relativeAppDir(path.join(__dirname, 'site/bisheng.config.js'));
+      if (command === 'deploy') {
+        argv = {
+          ...{
+            branch: 'gh-pages',
+            remote: 'origin',
+          },
+          ...argv,
+        };
+      }
       bisheng[command](argv);
     });
 
@@ -43,6 +52,6 @@ export default function run(argv) {
 
 function getRoutesConfig(rcFilename, paths) {
   const customConfig = getRcConfig(rcFilename, paths);
-  const routes = getRoutesOrSource(customConfig, 'routes', paths);
+  const routes = getConfigFromRc(customConfig, 'routes', paths);
   return routes;
 }

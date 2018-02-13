@@ -1,4 +1,4 @@
-import { getRoutesOrSource } from '../utils';
+import { getConfigFromRc } from '../utils';
 
 const {resolve} = require('path');
 const { getPaths, getRcConfig } = require('../utils');
@@ -15,14 +15,16 @@ const defaultConfig = {
 
 const customConfig = getRcConfig(rcFilename, paths);
 
-defaultConfig.source = getRoutesOrSource(customConfig, 'source', paths);
-defaultConfig.themeConfig = getRoutesOrSource(customConfig, 'themeConfig', paths);
 
 const bishengConfig = ('bishengConfig' in customConfig)
-  ? {
-    ...defaultConfig,
-    ...(customConfig.bishengConfig),
-  }
-  : defaultConfig;
+? {
+  ...defaultConfig,
+  ...(customConfig.bishengConfig),
+}
+: defaultConfig;
+
+bishengConfig.source = getConfigFromRc(customConfig, 'source', paths);
+bishengConfig.themeConfig = getConfigFromRc(customConfig, 'themeConfig', paths);
+
 console.dir(bishengConfig);
 module.exports = bishengConfig;

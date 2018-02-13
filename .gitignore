@@ -1,6 +1,7 @@
 lib
 node_modules
-personalTest
-realTest
+personalTest/node_modules
+realTest/node_modules
 remark.md
 routes.js
+.vscode

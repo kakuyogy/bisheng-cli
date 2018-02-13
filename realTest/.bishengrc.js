@@ -35,5 +35,6 @@ module.exports = {
       }
       return config;
     },
+    root: '/bisheng-cli/'
   },
 };

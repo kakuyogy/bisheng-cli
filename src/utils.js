@@ -39,8 +39,8 @@ export function getRcConfig(rcFilename, paths) {
     return {};
   }
 }
-// type: routes, source,
-export function getRoutesOrSource(rcConfig, type, paths) {
+// type: routes, source, themeConfig
+export function getConfigFromRc(rcConfig, type, paths) {
   let finalResult = null;
   const docsBase = paths.resolveApp('docs');
   if (type === 'routes') {
@@ -73,11 +73,13 @@ export function getRoutesOrSource(rcConfig, type, paths) {
     }
 
     finalResult = {};
+
     if ('component' in rcConfig) {
       let cur = rcConfig.component;
-      finalResult.component = (Array.isArray(cur.source) && cur.source.length > 1)
-        ? [paths.resolveApp(cur.source[0]), resolve(docsBase, cur.source[1])]
-        : paths.resolveApp(cur.source[0] || cur.sourc);
+      finalResult.component = paths.resolveApp(cur.component);
+      if(cur.source) {
+        finalResult[`__${cur.source}__`] = resolve(docsBase, cur.source);
+      }
     }
 
     if ('articles' in rcConfig) {
@@ -92,13 +94,31 @@ export function getRoutesOrSource(rcConfig, type, paths) {
     if ('component' in rcConfig) {
       let cur = rcConfig.component;
       if ('typeOrder' in cur) {
-        cur.bishengConfig = cur.bishengConfig || {};
-        cur.bishengConfig.themeConfig = cur.bishengConfig.themeConfig || {};
+        rcConfig.bishengConfig = rcConfig.bishengConfig || {};
+        rcConfig.bishengConfig.themeConfig = rcConfig.bishengConfig.themeConfig || {};
         finalResult = {
-          ...cur.bishengConfig.themeConfig,
+          ...rcConfig.bishengConfig.themeConfig,
           typeOrder: cur.typeOrder,
         };
       }
+
+      let headers = [];
+      if('home' in rcConfig) {
+        rcConfig.home.type = 'home';
+        headers.push(rcConfig.home);
+      }
+      let articles = [];
+      if('component' in rcConfig) {
+        rcConfig.component.type = 'component';
+        articles.push(rcConfig.component);
+      }
+      if('articles' in rcConfig) {
+        articles = articles.concat(Array.isArray(rcConfig.articles) ? rcConfig.articles : [rcConfig.articles]);
+      }
+      headers = headers.concat(
+        articles.sort((a, b) => (a.order - b.order))
+      );
+      finalResult.headers = headers;
     }
   }
 

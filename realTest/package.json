@@ -1,0 +1,22 @@
+{
+  "name": "realTest",
+  "version": "1.0.0",
+  "description": "",
+  "main": ".bishengrc.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development node ../bin/bisheng-cli.js start",
+    "debug": "devtool ../bin/bisheng-cli.js start --break",
+    "build": "node ../bin/bisheng-cli.js build",
+    "deploy": "node ../bin/bisheng-cli.js deploy --push-only",
+    "deploy-debug": "devtool ../bin/bisheng-cli.js deploy --push-only --break"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^5.1.3"
+  }
+}
