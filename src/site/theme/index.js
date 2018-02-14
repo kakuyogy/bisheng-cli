@@ -1,4 +1,4 @@
-const routes = require('../../../routes.js');
+const routes = require('../../routes.js');
 
 const entryConfig = {
   lazyLoad: false,

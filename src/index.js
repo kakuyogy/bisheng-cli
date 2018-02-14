@@ -15,7 +15,7 @@ export default function run(argv) {
     // 2. replace boilerplates/routes.js to routes.js
     placeholder.file(paths.bPath('routes.js'), {
       routes: JSON.stringify(routes, null, 2),
-    }, paths.ownDir, function (err) {
+    }, paths.resolveOwn('lib'), function (err) {
       if (err) {
         // eslint-disable-next-line
         console.log(err);
@@ -37,7 +37,7 @@ export default function run(argv) {
     });
 
   } else if (command === 'demo') {
-    const reponame = process.argv[3] || 'docs';
+    const reponame = process.argv[3] || '';
     placeholder.file(paths.bPath(command + '/**'), {}, paths.resolveApp(reponame), function (err) {
       if (err) {
         // eslint-disable-next-line
@@ -45,7 +45,7 @@ export default function run(argv) {
         process.exit(1);
       }
       // eslint-disable-next-line
-      console.log(chalk.green(`Generate demo successfully, ${chalk.cyan(`cd ${reponame}`)} run ${chalk.cyan('bisheng-cli start')}.`));
+      console.log(chalk.green(`Generate demo successfully, ${chalk.cyan(`cd ${reponame || 'docs'}`)} run ${chalk.cyan('bisheng-cli start')}.`));
     });
   }
 }

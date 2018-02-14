@@ -113,25 +113,25 @@ export function getConfigFromRc(rcConfig, type, paths) {
           typeOrder: cur.typeOrder,
         };
       }
-
-      let headers = [];
-      if ('home' in rcConfig) {
-        rcConfig.home.type = 'home';
-        headers.push(rcConfig.home);
-      }
-      let articles = [];
-      if ('component' in rcConfig) {
-        rcConfig.component.type = 'component';
-        articles.push(rcConfig.component);
-      }
-      if ('articles' in rcConfig) {
-        articles = articles.concat(Array.isArray(rcConfig.articles) ? rcConfig.articles : [rcConfig.articles]);
-      }
-      headers = headers.concat(
-        articles.sort((a, b) => (a.order - b.order))
-      );
-      finalResult.headers = headers;
     }
+
+    let headers = [];
+    if ('home' in rcConfig) {
+      rcConfig.home.type = 'home';
+      headers.push(rcConfig.home);
+    }
+    let articles = [];
+    if ('component' in rcConfig) {
+      rcConfig.component.type = 'component';
+      articles.push(rcConfig.component);
+    }
+    if ('articles' in rcConfig) {
+      articles = articles.concat(Array.isArray(rcConfig.articles) ? rcConfig.articles : [rcConfig.articles]);
+    }
+    headers = headers.concat(
+      articles.sort((a, b) => (a.order - b.order))
+    );
+    finalResult.headers = headers;
   }
 
   return finalResult;
