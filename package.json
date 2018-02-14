@@ -1,6 +1,6 @@
 {
   "name": "@ali/bisheng-cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "a bisheng cli for generating antd-like document site.",
   "main": "lib/index.js",
   "bin": {
