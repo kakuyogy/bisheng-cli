@@ -1,10 +1,10 @@
 {
-  "name": "bisheng-cli",
-  "version": "0.0.3",
+  "name": "@ali/bisheng-cli",
+  "version": "0.0.2",
   "description": "a bisheng cli for generating antd-like document site.",
   "main": "lib/index.js",
   "bin": {
-    "bisheng-cli": "bin/bisheng-cli.js"
+    "bisheng": "bin/bisheng-cli.js"
   },
   "scripts": {
     "pub": "npm run clean && npm run compile && npm run cpy && npm version patch --force && npm publish",
@@ -14,6 +14,9 @@
     "debug": "babel src --out-dir lib -w",
     "build": "npm run clean && npm run cpy && npm run compile",
     "tpub": "npm run clean && npm run compile && npm run cpy && npm version patch --force && tnpm publish"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npm.alibaba-inc.com"
   },
   "repository": {
     "type": "git",
