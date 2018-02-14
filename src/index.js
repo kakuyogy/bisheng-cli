@@ -37,7 +37,7 @@ export default function run(argv) {
     });
 
   } else if (command === 'demo') {
-    const reponame = process.argv[3] || '';
+    const reponame = process.argv[3] || 'docs';
     placeholder.file(paths.bPath(command + '/**'), {}, paths.resolveApp(reponame), function (err) {
       if (err) {
         // eslint-disable-next-line
@@ -45,7 +45,7 @@ export default function run(argv) {
         process.exit(1);
       }
       // eslint-disable-next-line
-      console.log(chalk.green(`Generate demo successfully, ${reponame === '' ? '' : chalk.cyan(`cd ${reponame}`)} run ${chalk.cyan('bisheng-cli start')}.`));
+      console.log(chalk.green(`Generate demo successfully, ${chalk.cyan(`cd ${reponame}`)} run ${chalk.cyan('bisheng-cli start')}.`));
     });
   }
 }
