@@ -38,7 +38,7 @@ export default function run(argv) {
 
   } else if (command === 'demo') {
     const reponame = process.argv[3] || '';
-    placeholder.file(paths.bPath(command + '/**'), {}, paths.resolveOwn(reponame), function (err) {
+    placeholder.file(paths.bPath(command + '/**'), {}, paths.resolveApp(reponame), function (err) {
       if (err) {
         // eslint-disable-next-line
         console.log(err);
