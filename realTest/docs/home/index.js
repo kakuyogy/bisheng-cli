@@ -1,5 +1,5 @@
 import React from 'react';
-
-export default function Home() {
-  return <h3>i am home</h3>;
+import word from './dir/word';
+export default function() {
+  return <h3>{word()}</h3>;
 }

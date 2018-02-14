@@ -1,9 +1,11 @@
 import { resolve, relative } from 'path';
-import { realpathSync, existsSync, readFileSync } from 'fs';
+import fs, { realpathSync, existsSync, readFileSync } from 'fs';
 import stripJsonComments from 'strip-json-comments';
 import parseJSON from 'parse-json-pretty';
 import placeholder from 'replace-holder';
 import rimraf from 'rimraf';
+import glob from 'glob';
+import { transformFileSync } from 'babel-core';
 
 export function getPaths(cwd) {
   const appDir = realpathSync(cwd);
@@ -59,17 +61,27 @@ export function getConfigFromRc(rcConfig, type, paths) {
       component: './template/Doc',
     });
 
-  } else if(type === 'source') {
+  } else if (type === 'source') {
     // copy home
-    if('home' in rcConfig) {
+    if ('home' in rcConfig) {
       let cur = rcConfig.home;
       let componentPath = resolve(docsBase, cur.component);
-      componentPath = componentPath + '/**';
       const targetDir = paths.resolveOwn(`lib/site/theme/template/${cur.component}`);
-      if(existsSync(targetDir)) {
+      if (existsSync(targetDir)) {
         rimraf.sync(targetDir);
       }
-      placeholder.fileSync(componentPath, {}, targetDir);
+      if (existsSync(componentPath)) {
+        placeholder.fileSync(componentPath + '/**', {}, targetDir);
+        glob.sync(targetDir + '/**', {
+          realPath: true,
+          nodir: true,
+          dot: true,
+        })
+          .forEach(function (file) {
+            const content = transformFileSync(file).code;
+            fs.writeFileSync(file, content, { encoding: 'utf8' });
+          });
+      }
     }
 
     finalResult = {};
@@ -77,7 +89,7 @@ export function getConfigFromRc(rcConfig, type, paths) {
     if ('component' in rcConfig) {
       let cur = rcConfig.component;
       finalResult.component = paths.resolveApp(cur.component);
-      if(cur.source) {
+      if (cur.source) {
         finalResult[`__${cur.source}__`] = resolve(docsBase, cur.source);
       }
     }
@@ -89,7 +101,7 @@ export function getConfigFromRc(rcConfig, type, paths) {
         result[article.source] = resolve(docsBase, article.source);
       }, finalResult);
     }
-  } else if(type === 'themeConfig') {
+  } else if (type === 'themeConfig') {
     finalResult = {};
     if ('component' in rcConfig) {
       let cur = rcConfig.component;
@@ -103,16 +115,16 @@ export function getConfigFromRc(rcConfig, type, paths) {
       }
 
       let headers = [];
-      if('home' in rcConfig) {
+      if ('home' in rcConfig) {
         rcConfig.home.type = 'home';
         headers.push(rcConfig.home);
       }
       let articles = [];
-      if('component' in rcConfig) {
+      if ('component' in rcConfig) {
         rcConfig.component.type = 'component';
         articles.push(rcConfig.component);
       }
-      if('articles' in rcConfig) {
+      if ('articles' in rcConfig) {
         articles = articles.concat(Array.isArray(rcConfig.articles) ? rcConfig.articles : [rcConfig.articles]);
       }
       headers = headers.concat(

@@ -35,6 +35,7 @@ module.exports = {
       }
       return config;
     },
-    root: '/bisheng-cli/'
+    root: '/bisheng-cli/',
+    port: 8787
   },
 };
